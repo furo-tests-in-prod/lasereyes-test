@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METHANE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            overflow: auto;
+            position: relative;
+        }
+
+        /* Gas bubble animation */
+        .gas-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            opacity: 0;
+            animation: rise 15s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.3);
+            }
+            10% {
+                opacity: 0.5;
+            }
+            30% {
+                opacity: 0.3;
+            }
+            60% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.1;
+                transform: translateY(-120vh) scale(0.8);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-130vh) scale(0.9);
+            }
+        }
+
+        .container {
+            min-height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 45px; /* Space for the METHANE header */
+        }
+
+        .methane-header {
+            font-weight: 900;
+            font-style: italic;
+            font-size: 100px;
+            line-height: 100px;
+            padding-bottom: 0px;
+            text-align: center;
+            background-color: #000000;
+            margin: 0 auto;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: #ffffff;
+            letter-spacing: -2px;
+        }
+
+        .content-box {
+            border: 2px solid #ffffff;
+            padding: 100px 50px 30px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #000000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-text {
+            font-weight: 300;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            margin-top: 55px;
+        }
+
+        .learn-more {
+            display: block;
+            margin: 20px 0;
+            font-weight: 700;
+            font-size: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .mint-button {
+            display: block;
+            width: 100%;
+            background-color: #ffffff;
+            color: #000000;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 30px 0 15px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .fee-rate {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin: 10px 0 15px;
+        }
+
+        .fee-text {
+            font-weight: 300;
+        }
+
+        .edit-fee {
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .discord-link {
+            display: block;
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .fee-input-container {
+            display: none;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .fee-input {
+            background-color: #000000;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 12px;
+            padding: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .fee-input:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+
+        /* Remove spinner buttons in Chrome, Safari, Edge, Opera */
+        .fee-input::-webkit-outer-spin-button,
+        .fee-input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Remove spinner buttons in Firefox */
+        .fee-input[type=number] {
+          -moz-appearance: textfield;
+        }
+
+        /* Wallet connection styles */
+        .wallet-status {
+            font-size: 12px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding: 12px;
+            text-align: center;
+            /* Hide by default */
+            display: none;
+            border: 1px solid #00ff00;
+            border-radius: 6px;
+            background-color: rgba(0, 255, 0, 0.05);
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Only show when connected */
+        .wallet-status.wallet-connected {
+            display: block !important;
+        }
+
+        .wallet-status > div:first-child {
+            color: #00ff00;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .wallet-address {
+            font-size: 11px;
+            font-family: monospace;
+            word-break: break-all;
+            margin-top: 5px;
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px;
+            border-radius: 4px;
+            display: inline-block;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        
+        .disconnect-button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: rgba(255, 0, 0, 0.2);
+            color: #ff5555;
+            border: 1px solid #ff5555;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            transition: all 0.2s ease;
+        }
+        
+        .disconnect-button:hover {
+            background-color: rgba(255, 0, 0, 0.3);
+        }
+        
+        /* Responsive adjustments for mobile */
+        @media (max-width: 480px) {
+            .wallet-status {
+                max-width: 90%;
+                font-size: 11px;
+                padding: 10px;
+            }
+            
+            .wallet-address {
+                font-size: 10px;
+                padding: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Gas animation background -->
+    <div class="gas-background" id="gas-background"></div>
+
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="methane-header"><span style="letter-spacing: -4px !important;">M</span>ETHA<span style="letter-spacing: -4px !important;">NE</span></div>
+            <div class="content-box">
+                <p class="info-text">
+                    The first memecoin on Alkanes,<br>
+                    a new metaprotocol built on Bitcoin.
+                </p>
+                <a href="#" class="learn-more">Learn more about Alkanes</a>
+                <button class="mint-button" id="mint-button">CONNECT WALLET TO MINT</button>
+                <div class="fee-input-container" id="fee-input-container">
+                    <input type="number" class="fee-input" id="fee-input" min="1" value="5">
+                </div>
+                <div class="fee-rate">
+                    <span class="fee-text">Fee rate: <span id="fee-value">5</span> sat/vB</span>
+                    <a href="#" class="edit-fee" id="edit-fee-btn">Edit fee rate</a>
+                </div>
+            </div>
+            <a href="#" class="discord-link">Join the Methane Discord</a>
+            
+            <!-- Hidden wallet address storage (not displayed) -->
+            <div id="wallet-address" style="display:none;"></div>
+            
+        </div>
+    </div>
+
+    <!-- This is where Parcel will inject the scripts -->
+    <script type="module" src="./index.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editFeeBtn = document.getElementById('edit-fee-btn');
+            const feeInputContainer = document.getElementById('fee-input-container');
+            const feeInput = document.getElementById('fee-input');
+            const feeValue = document.getElementById('fee-value');
+            
+            // We don't hide wallet status anymore - that's handled by the inline script
+            console.log("Wallet status visibility controlled by MutationObserver");
+
+            editFeeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (feeInputContainer.style.display === 'block') {
+                    // Save the new fee value
+                    const newFeeValue = feeInput.value;
+                    feeValue.textContent = newFeeValue;
+
+                    // Hide the input field
+                    feeInputContainer.style.display = 'none';
+
+                    // Change button text back to "Edit fee rate"
+                    editFeeBtn.textContent = 'Edit fee rate';
+                } else {
+                    // Show the input field
+                    feeInputContainer.style.display = 'block';
+
+                    // Set the current value
+                    feeInput.value = feeValue.textContent;
+
+                    // Focus the input
+                    feeInput.focus();
+
+                    // Change button text to "Done"
+                    editFeeBtn.textContent = 'Done';
+                }
+            });
+
+            // Allow pressing Enter to submit
+            feeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    editFeeBtn.click();
+                }
+            });
+
+            // Create gas bubbles
+            const gasBg = document.getElementById('gas-background');
+            const maxBubbles = 50; // Maximum number of bubbles allowed
+
+            const createBubbles = () => {
+                // Only create new bubbles if we're under the limit
+                const currentBubbles = gasBg.querySelectorAll('.bubble').length;
+                if (currentBubbles >= maxBubbles) {
+                    return;
+                }
+
+                const bubblesToCreate = Math.min(15, maxBubbles - currentBubbles);
+
+                for (let i = 0; i < bubblesToCreate; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('bubble');
+
+                    // Random properties for varied effect
+                    const size = Math.random() * 120 + 80; // 80-200px
+                    const left = Math.random() * 100; // 0-100%
+                    const animationDelay = Math.random() * 5; // 0-5s
+                    const duration = Math.random() * 8 + 12; // 12-20s
+
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${left}%`;
+                    bubble.style.animationDelay = `${animationDelay}s`;
+                    bubble.style.animationDuration = `${duration}s`;
+
+                    // Remove bubble when animation completes
+                    bubble.addEventListener('animationend', function() {
+                        this.remove();
+                    });
+
+                    gasBg.appendChild(bubble);
+                }
+            };
+
+            createBubbles();
+
+            // Periodically create new bubbles for continuous effect
+            setInterval(createBubbles, 3000);
+
+            // We're no longer using the wallet-connected event
+            // Wallet status is now managed directly by React
+            
+            // We've removed the disconnect button
+            // Disconnecting can be done by clicking the mint button when connected
+        });
+    </script>
+</body>
+</html>

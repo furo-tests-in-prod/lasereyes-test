@@ -1,0 +1,17 @@
+{
+  "name": "methane",
+  "version": "1.0.0",
+  "description": "Methane - The first memecoin on Alkanes",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "@omnisat/lasereyes": "^0.0.140",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}
