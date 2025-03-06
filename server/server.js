@@ -32,10 +32,11 @@ app.post('/api/create-mint-psbt', async (req, res) => {
     
     console.log("PSBT created successfully:", result.psbt.substring(0, 30) + "...");
     
-    // Return the PSBT to the client
+    // Return the PSBT to the client with format information
     return res.status(200).json({
       success: true,
       psbt: result.psbt,
+      format: result.format || "hex", // Explicitly specify the format
       message: 'PSBT created successfully'
     });
   } catch (error) {
