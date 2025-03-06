@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "target": "ES2022",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "./lib",
+    "declaration": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@collectible/*": ["collectible/*"],
+      "@account/*": ["account/*"],
+      "@btc/*": ["btc/*"],
+      "@brc20/*": ["brc20/*"],
+      "@rune/*": ["rune/*"],
+      "@signer/*": ["signer/*"],
+      "@utxo/*": ["utxo/*"],
+      "@alkanes/*": ["alkanes/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.wasm"],
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/__fixtures__"],
+  "ts-node": {
+    "esm": true
+  }
+}
